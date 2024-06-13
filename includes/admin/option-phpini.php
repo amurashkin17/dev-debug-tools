@@ -23,8 +23,8 @@ echo '<div class="full_width_container">
             
             if ( $path_map_enable ) {
                 if ( str_starts_with($value,$path_map_server_prefix) ) {
-                    $value = $path_map_url_prefix.substr($value, strlen($path_map_server_prefix));
-                    $value = '<a href="">'.esc_html( $value ).'</a>';
+                    $value = '<a href="'.$path_map_url_prefix.substr($value, strlen($path_map_server_prefix)).
+                             '">'.esc_html( $value ).'</a>';
                 }
             } else {
                 $value = esc_html( $value );
