@@ -12,8 +12,20 @@ echo '<div class="full_width_container">
             <th>Value</th>
         </tr>';
 
+        $path_map_enable = get_option( DDTT_GO_PF.'path_map_enable' ) && get_option( DDTT_GO_PF.'path_map_enable' ) == 1;
+        if ( $path_map_enable ) {
+            $path_map_server_prefix = get_option( DDTT_GO_PF.'path_map_server_prefix' );
+            $path_map_url_prefix = get_option( DDTT_GO_PF.'path_map_url_prefix' );
+        }
+        
         // Cycle through the options
         foreach( $all_options as $option => $value ) {
+            if ( $path_map_enable ) {
+                if ( str_starts_with($value,$path_map_server_prefix) ) {
+                    $value = $path_map_url_prefix.substr($value, strlen($path_map_server_prefix));
+                    $value = '<a href="">'.esc_html( $value ).'</a>';
+                }
+            }
             echo '<tr>
                 <td><span class="highlight-variable">'.esc_attr( $option ).'</span></td>
                 <td>'.esc_html( $value ).'</td>
