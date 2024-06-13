@@ -357,6 +357,23 @@
             </table>
 
             <?php submit_button(); ?>
+            
+            <h2>Pathname Remapping</h2>
+            <p>Convert pathnames to clickable URLs</p>
+            <table class="form-table">
+            
+                <?php echo wp_kses( ddtt_options_tr( 'path_map_enable', 'Enable Pathname Remapping', 'checkbox' ), $allowed_html ); ?>
+            
+                <?php echo wp_kses( ddtt_options_tr( 'path_map_server_prefix', 'Wordpress Server Pathname Prefix to Discard', 'text', null, [ 'default' => '' ] ), $allowed_html ); ?>
+                
+                <?php echo wp_kses( ddtt_options_tr( 'path_map_client_prefix', 'Client Pathname Prefix or Template', 'text', null, [ 'default' => 'file:///' ] ), $allowed_html ); ?>
+
+                <?php echo wp_kses( ddtt_options_tr( 'path_map_server_top', 'Wordpress Server Top Directory Pathname', 'text', null, [ 'default' => '/' ] ), $allowed_html ); ?>
+                                
+            </table>
+
+            <?php submit_button(); ?>
+            
         </div>
     </form>
 <?php } ?>
