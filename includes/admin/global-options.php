@@ -82,6 +82,10 @@ class DDTT_GLOBAL_OPTIONS {
             'color_fx_vars',
             'color_syntax',
             'color_text_quotes',
+            'path_map_enable',
+            'path_map_server_top',
+            'path_map_server_prefix',
+            'path_map_url_prefix',
         ] );
 
         // Error Reporting Settings
