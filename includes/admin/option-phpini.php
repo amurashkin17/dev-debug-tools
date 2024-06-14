@@ -18,16 +18,20 @@ echo '<div class="full_width_container">
             $path_map_url_prefix = get_option( DDTT_GO_PF.'path_map_url_prefix' );
         }
         
-        trigger_error("path_map_enable ".$path_map_enable.
-            "path_map_server_prefix ".$path_map_server_prefix.
-            "path_map_url_prefix ".$path_map_url_prefix,E_USER_NOTICE ); 
+        if ( true === WP_DEBUG ) {
+            ddtt_write_log([ 
+                '$path_map_enable'        => $path_map_enable,
+                '$path_map_server_prefix' => $path_map_server_prefix,
+                '$path_map_url_prefix'    => $path_map_url_prefix
+            ]); 
+        }
         
         // Cycle through the options
         foreach( $all_options as $option => $value ) {
             
             if ( $path_map_enable && is_string($value) && str_starts_with($value,$path_map_server_prefix) ) {
                 $value = '<a href="'.$path_map_url_prefix.substr($value, strlen($path_map_server_prefix)).
-                         '">'.esc_html( $value ).'</a>';
+                         '" style="text-decoration: none">'.esc_html( $value ).'</a>';
             } else {
                 $value = esc_html( $value );
             }
