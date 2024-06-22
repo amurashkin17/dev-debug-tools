@@ -34,6 +34,33 @@ class DDTT_DEBUG_TOOLS {
 		}
         $this->load_dependencies();
 
+        /* The autoload function resolves class name as below
+         *
+         | Class Name          | Pathname                                   |
+         | DDTT_MY_FOO         | __DIR__/../classes/class-my-foo.php        |
+         | \DDTT_NS\MY_FOO     | __DIR__/../classes/ns/class-my-foo.php     |
+         | \DDTT_NS\SUB\MY_FOO | __DIR__/../classes/ns/sub/class-my-foo.php |
+         * 
+         */
+        
+        spl_autoload_register( function($classname) {
+            
+            if ( !str_starts_with( $classname, "DDTT_" ) ) return;
+            
+            $parts      = explode( '\\', substr($classname,5) );
+            $slug       = 'class-' . strtolower(str_replace( '_', '-', array_pop($parts) ));
+            $folders    = count($parts) ? strtolower( implode('/', $parts) ) . '/' : '';
+            $classpath  = __DIR__ .  '/classes/' . $folders . $slug . '.php';
+            
+            if ( true === WP_DEBUG ) {
+                ddtt_write_log("autoloading $classname --> $classpath");
+            }
+            
+            if ( file_exists( $classpath) ) {
+                require_once $classpath;
+            }
+        });
+        
         // Add wp_mail failure notices to debug.log
         if ( get_option( DDTT_GO_PF.'wp_mail_failure' ) && get_option( DDTT_GO_PF.'wp_mail_failure' ) == 1 ) {
             add_action( 'wp_mail_failed', [ $this, 'mail_failure' ], 10, 1 );

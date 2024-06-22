@@ -12,33 +12,15 @@ echo '<div class="full_width_container">
             <th>Value</th>
         </tr>';
 
-        $path_map_enable = get_option( DDTT_GO_PF.'path_map_enable' ) && get_option( DDTT_GO_PF.'path_map_enable' ) == 1;
-        if ( $path_map_enable ) {
-            $path_map_server_prefix = get_option( DDTT_GO_PF.'path_map_server_prefix' );
-            $path_map_url_prefix = get_option( DDTT_GO_PF.'path_map_url_prefix' );
-        }
-        
-        if ( true === WP_DEBUG ) {
-            ddtt_write_log([ 
-                '$path_map_enable'        => $path_map_enable,
-                '$path_map_server_prefix' => $path_map_server_prefix,
-                '$path_map_url_prefix'    => $path_map_url_prefix
-            ]); 
-        }
+        // pathname map that transforms pathnames to hyperlinks
+        $pathmap = new DDTT_PATHMAP();
         
         // Cycle through the options
         foreach( $all_options as $option => $value ) {
-            
-            if ( $path_map_enable && is_string($value) && str_starts_with($value,$path_map_server_prefix) ) {
-                $value = '<a href="'.$path_map_url_prefix.substr($value, strlen($path_map_server_prefix)).
-                         '" style="text-decoration: none">'.esc_html( $value ).'</a>';
-            } else {
-                $value = esc_html( $value );
-            }
-            
+                      
             echo '<tr>
                 <td><span class="highlight-variable">'.esc_attr( $option ).'</span></td>
-                <td>'.$value.'</td>
+                <td>'.$pathmap->hyperlink_or_text( $value ).'</td>
             </tr>';
         }
 

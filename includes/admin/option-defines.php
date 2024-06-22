@@ -8,6 +8,9 @@ $current_url = ddtt_plugin_options_path( $tab );
 // Get the defined constants
 $categories = @get_defined_constants( true );
 
+// pathname map that transforms pathnames to hyperlinks
+$pathmap = new DDTT_PATHMAP();
+
 // Return the table
 echo '<div class="full_width_container">
     <table class="admin-large-table">
@@ -30,7 +33,7 @@ echo '<div class="full_width_container">
                 echo '<tr>
                     <td><span class="highlight-variable">'.esc_attr( $category ).'</span></td>
                     <td><span class="highlight-variable">'.esc_attr( $constant ).'</span></td>
-                    <td>'.esc_html( $value ).'</td>
+                    <td>'.$pathmap->hyperlink_or_text( $value ).'</td>
                 </tr>';
             }
 
