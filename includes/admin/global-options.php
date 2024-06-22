@@ -91,6 +91,16 @@ class DDTT_GLOBAL_OPTIONS {
             'path_map_url_prefix',
         ] );
 
+        // WP-CONFIG Settings
+        $this->register_group_settings( 'wpcnfg', [
+            'eol_wpcnfg',
+        ] );
+
+        // HTACCESS Settings
+        $this->register_group_settings( 'htaccess', [
+            'eol_htaccess',
+        ] );
+
         // Error Reporting Settings
         $this->register_group_settings( 'error', [
             'error_enable',
